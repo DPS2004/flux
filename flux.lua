@@ -14,15 +14,15 @@ flux.tweens = {}
 flux.easing = { linear = function(p) return p end }
 
 local easing = {
-  quad    = "p * p",
-  cubic   = "p * p * p",
-  quart   = "p * p * p * p",
-  quint   = "p * p * p * p * p",
-  expo    = "2 ^ (10 * (p - 1))",
-  sine    = "-math.cos(p * (math.pi * .5)) + 1",
-  circ    = "-(math.sqrt(1 - (p * p)) - 1)",
-  back    = "p * p * (2.7 * p - 1.7)",
-  elastic = "-(2^(10 * (p - 1)) * math.sin((p - 1.075) * (math.pi * 2) / .3))"
+  Quad    = "p * p",
+  Cubic   = "p * p * p",
+  Quart   = "p * p * p * p",
+  Quint   = "p * p * p * p * p",
+  Expo    = "2 ^ (10 * (p - 1))",
+  Sine    = "-math.cos(p * (math.pi * .5)) + 1",
+  Circ    = "-(math.sqrt(1 - (p * p)) - 1)",
+  Back    = "p * p * (2.7 * p - 1.7)",
+  Elastic = "-(2^(10 * (p - 1)) * math.sin((p - 1.075) * (math.pi * 2) / .3))"
 }
 
 local makefunc = function(str, expr)
@@ -31,12 +31,12 @@ local makefunc = function(str, expr)
 end
 
 for k, v in pairs(easing) do
-  flux.easing[k .. "in"] = makefunc("return $e", v)
-  flux.easing[k .. "out"] = makefunc([[
+  flux.easing["in" .. k] = makefunc("return $e", v)
+  flux.easing["out".. k] = makefunc([[
     p = 1 - p
     return 1 - ($e)
   ]], v)
-  flux.easing[k .. "inout"] = makefunc([[
+  flux.easing["inout" .. k] = makefunc([[
     p = p * 2
     if p < 1 then
       return .5 * ($e)
@@ -45,6 +45,7 @@ for k, v in pairs(easing) do
       return .5 * (1 - ($e)) + .5
     end
   ]], v)
+
 end
 
 
@@ -91,7 +92,7 @@ function tween.new(obj, time, vars)
   self.rate = time > 0 and 1 / time or 0
   self.progress = time > 0 and 0 or 1
   self._delay = 0
-  self._ease = "quadout"
+  self._ease = "linear"
   self.vars = {}
   for k, v in pairs(vars) do
     if type(v) ~= "number" then
