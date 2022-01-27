@@ -36,7 +36,7 @@ for k, v in pairs(easing) do
     p = 1 - p
     return 1 - ($e)
   ]], v)
-  flux.easing["inout" .. k] = makefunc([[
+  flux.easing["inOut" .. k] = makefunc([[
     p = p * 2
     if p < 1 then
       return .5 * ($e)
